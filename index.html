@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sorpresa</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #ffd6e7, #fff0f5, #ffc1d9);
+            color: #a21d55;
+            overflow-x: hidden;
+        }
+
+        .contenedor {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px 15px;
+            text-align: center;
+        }
+
+        .inicio {
+            max-width: 600px;
+            animation: aparecer 1.2s ease;
+        }
+
+        .inicio h1 {
+            font-family: Georgia, serif;
+            font-size: clamp(28px, 6vw, 43px);
+            color: #c2185b;
+        }
+
+        .inicio p {
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .corazon-principal {
+            display: block;
+            margin: 25px auto;
+            border: none;
+            background: transparent;
+            font-size: clamp(110px, 28vw, 165px);
+            cursor: pointer;
+            animation: latido 1.2s infinite;
+            filter: drop-shadow(0 8px 12px #d94b8355);
+        }
+
+        .corazon-principal:hover {
+            transform: scale(1.12);
+        }
+
+        .instruccion {
+            color: #9b2455;
+            font-weight: bold;
+        }
+
+        #carta {
+            display: none;
+            width: 100%;
+            max-width: 650px;
+            animation: aparecer 1.3s ease;
+        }
+
+        .papel {
+            background: rgba(255, 255, 255, 0.96);
+            padding: clamp(22px, 5vw, 40px);
+            border: 2px solid #ffbfd6;
+            border-radius: 25px;
+            box-shadow: 0 10px 35px #c7387140;
+        }
+
+        .decoracion {
+            font-size: 30px;
+            letter-spacing: 5px;
+            margin: 12px 0;
+        }
+
+        .papel h1 {
+            color: #d63375;
+            font-family: Georgia, serif;
+            font-size: clamp(28px, 6vw, 39px);
+        }
+
+        .papel h2 {
+            color: #d63375;
+            font-family: Georgia, serif;
+            margin-top: 28px;
+        }
+
+        .mensaje {
+            font-family: Georgia, serif;
+            color: #73334f;
+            font-size: 18px;
+            line-height: 1.9;
+            white-space: pre-line;
+        }
+
+        .firma {
+            margin-top: 25px;
+            font-family: Georgia, serif;
+            font-style: italic;
+            font-size: 23px;
+            color: #d63375;
+        }
+
+        .rosa {
+            font-size: 65px;
+            margin: 10px;
+            animation: balanceo 2s infinite alternate;
+        }
+
+        .boton {
+            margin-top: 20px;
+            padding: 14px 25px;
+            background: #e83e80;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px #e83e8040;
+            transition: transform 0.2s;
+        }
+
+        .boton:hover {
+            transform: scale(1.06);
+        }
+
+        .pie {
+            margin-top: 25px;
+            color: #b34a76;
+            font-size: 14px;
+        }
+
+        .corazon-flotante {
+            position: fixed;
+            bottom: -50px;
+            pointer-events: none;
+            z-index: 10;
+            animation: subir 4s linear forwards;
+        }
+
+        #mensaje-final {
+            display: none;
+            margin-top: 22px;
+            color: #d63375;
+            font-family: Georgia, serif;
+            font-size: 24px;
+            animation: aparecer 1s ease;
+        }
+
+        @keyframes latido {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.12);
+            }
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes subir {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-115vh) rotate(35deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes balanceo {
+            from {
+                transform: rotate(-8deg);
+            }
+            to {
+                transform: rotate(8deg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mensaje {
+                font-size: 16px;
+            }
+
+            .papel {
+                padding: 23px 18px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="contenedor">
+
+        <!-- PANTALLA INICIAL -->
+        <section class="inicio" id="inicio">
+
+            <div class="decoracion">🌹 💕 🌹</div>
+
+            <h1>Una sorpresa para ti, mi amor ❤️</h1>
+
+            <p>
+                Hay algo que quiero decirte desde el corazón...
+            </p>
+
+            <p class="instruccion">
+                Toca el corazón para descubrir tu sorpresa 💌
+            </p>
+
+            <button
+                class="corazon-principal"
+                onclick="abrirCarta()"
+                aria-label="Abrir carta de amor">
+                💝
+            </button>
+
+            <p>He preparado esto especialmente para ti. 💗</p>
+
+        </section>
+
+
+        <!-- CARTA ROMÁNTICA -->
+        <section id="carta">
+
+            <article class="papel">
+
+                <div class="decoracion">💕 💗 💕</div>
+
+                <h1>Para ti amor ❤️</h1>
+
+                <div class="rosa">🌹</div>
+
+                <p class="mensaje">Mi amor:
+
+    Quería dedicarte estas palabritas para recordarte lo mucho que significas para mí. ❤️
+
+    Desde que llegaste a mi vida, muchas cosas se volvieron más bonitas. Tu sonrisa, tus abrazos y esa forma tan tuya de hacerme feliz ocupan un lugar muy especial en mi corazón.
+
+    No necesito una fecha especial para decirte cuánto te quiero, porque quiero que lo sepas todos los días. Me encanta compartir momentos contigo, reírnos juntos, abrazarte y guardar esos pequeños recuerdos que, aunque parezcan simples, significan muchísimo para mí.
+
+    Tal vez esta página sea un detalle pequeño, pero la hice con todo mi cariño, pensando en ti y en esa sonrisa que tanto me gusta. Espero que, al verla, sientas aunque sea un poquito de todo el amor que tengo por ti.
+
+    Si pudiera pedir un deseo, sería seguir a tu lado, crear muchos recuerdos bonitos, apoyarnos cuando las cosas no vayan tan bien y encontrar siempre una razón para sonreír juntos.
+
+    Gracias por llegar a mi vida y hacerla más bonita con tu presencia. No sé qué nos depara el futuro, pero sí sé que quiero seguir compartiendo contigo muchos momentos especiales. 💗
+
+    Te quiero muchísimo, y este pequeño detalle es solo una forma de recordártelo.❤️
+    
+    </p>
+
+                <div class="firma">
+                    Con todo mi amor, para ti. 💋
+                </div>
+
+                <div class="decoracion">🌹 💌 🌹</div>
+
+                <h2>Un pequeño recordatorio 💖</h2>
+
+                <p class="mensaje">
+                    Eres una persona muy especial para mí.
+                    Nunca olvides lo mucho que te quiero.
+                    Mi corazón tiene un lugar para ti. ❤️
+                </p>
+
+                <button class="boton" onclick="mostrarAmor()">
+                    Presiona aquí, mi amor 💗
+                </button>
+
+                <div id="mensaje-final">
+                    ¡Te quiero muchísimo! ❤️😘
+                    <div class="decoracion">💖 💕 💖</div>
+                </div>
+
+                <div class="pie">
+                    Hecho especialmente para ti, con amor infinito. 💝
+                </div>
+
+            </article>
+
+        </section>
+
+    </main>
+
+
+    <script>
+        // Abre la carta al tocar el corazón.
+        function abrirCarta() {
+            document.getElementById("inicio").style.display = "none";
+            document.getElementById("carta").style.display = "block";
+
+            crearCorazones(35);
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+        // Crea corazones animados que suben por la pantalla.
+        function crearCorazones(cantidad) {
+            const simbolos = ["❤️", "💗", "💕", "💖", "💘", "💝"];
+
+            for (let i = 0; i < cantidad; i++) {
+                const corazon = document.createElement("span");
+
+                corazon.className = "corazon-flotante";
+
+                corazon.textContent =
+                    simbolos[Math.floor(Math.random() * simbolos.length)];
+
+                corazon.style.left = Math.random() * 100 + "vw";
+
+                corazon.style.fontSize =
+                    (18 + Math.random() * 25) + "px";
+
+                corazon.style.animationDuration =
+                    (3 + Math.random() * 3) + "s";
+
+                document.body.appendChild(corazon);
+
+                corazon.addEventListener("animationend", function () {
+                    corazon.remove();
+                });
+            }
+        }
+
+        // Muestra un mensaje especial y más corazones.
+        function mostrarAmor() {
+            document.getElementById("mensaje-final").style.display = "block";
+
+            crearCorazones(40);
+
+            document.getElementById("mensaje-final").scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
+    </script>
+
+</body>
+</html>
